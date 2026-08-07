@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "autocut",
+  "version": "0.1.0",
+  "description": "Generate animated narrated MP4 presentation videos from Storyboard JSON or Markdown using Fish Audio and Playwright.",
+  "author": {
+    "name": "Rufus Hsu",
+    "url": "https://github.com/rufushsu9987"
+  },
+  "homepage": "https://github.com/rufushsu9987/autocut#readme",
+  "repository": "https://github.com/rufushsu9987/autocut",
+  "license": "MIT",
+  "keywords": [
+    "agent-plugins",
+    "agent-skills",
+    "presentation",
+    "mp4",
+    "tts",
+    "fish-audio",
+    "slides",
+    "video"
+  ]
+}
