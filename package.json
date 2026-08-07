@@ -1,0 +1,40 @@
+{
+  "name": "autocut",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Generate animated narrated MP4 presentation videos with Fish Audio voiceover.",
+  "bin": {
+    "autocut": "./bin/autocut.mjs"
+  },
+  "scripts": {
+    "check": "node --check bin/autocut.mjs && node --check lib/*.mjs && node --check scripts/*.mjs && npm test",
+    "test": "node --test test/*.test.mjs",
+    "doctor": "node bin/autocut.mjs doctor",
+    "create:demo": "node bin/autocut.mjs create \"AI Agent 技術提案\" --slides 6 --out examples/generated-storyboard.json",
+    "render:demo": "node bin/autocut.mjs render --input examples/storyboard.json --out dist/demo.mp4 --no-tts",
+    "setup:browser": "npx playwright install chromium"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "playwright": "^1.54.0"
+  },
+  "keywords": [
+    "presentation",
+    "slides",
+    "video",
+    "mp4",
+    "tts",
+    "fish-audio",
+    "agent-skills",
+    "codex",
+    "claude-code"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rufushsu9987/autocut.git"
+  }
+}
