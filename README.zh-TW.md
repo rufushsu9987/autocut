@@ -1,44 +1,95 @@
-# AutoCut — 自動生成動畫簡報、配音並輸出 MP4
+# AutoCut — 自動生成多版型動畫簡報、Fish Audio 配音與 MP4
 
-AutoCut 是一個本機 CLI 工具，可以把 Storyboard 轉成有動畫、有旁白、可直接分享的 MP4 簡報影片。
+AutoCut 是一個本機優先的影片簡報 CLI。它會把 Storyboard 轉成真正具有不同資訊結構的 HTML 簡報，使用 Fish Audio / Fish Studio API 逐頁產生旁白，再透過 Playwright 與 ffmpeg 輸出可直接分享的 MP4。
 
-核心流程：
+本專案延續 [`claude-code-slides`](https://github.com/rufushsu9987/claude-code-slides) 的 Agent-friendly 工作流，但專注於：
 
-1. 產生 16:9 HTML 簡報與企業風格動畫效果。
-2. 使用 Fish Audio / Fish Studio API Key 逐頁產生旁白。
-3. 使用 Playwright 錄製瀏覽器動畫，保留轉場與 reveal 效果。
-4. 使用 ffmpeg 合成影片與音訊，輸出 MP4。
-
-此專案參考 [`claude-code-slides`](https://github.com/rufushsu9987/claude-code-slides) 的 Agent-friendly 工作流：用結構化輸入、可重複的本機輸出，以及可被 Codex / Claude Code 呼叫的 Skill。
-
-## 功能
-
-- 支援 Storyboard JSON 與 Markdown 輸入。
-- 內建 `zoom`、`wipe`、`slide`、`spotlight` 動畫效果。
-- 透過 REST API 串接 Fish Audio TTS。
-- API Key 只讀環境變數，不寫入 repo。
-- 使用 Playwright 錄下 HTML / CSS 動畫。
-- 使用 ffmpeg 輸出 H.264 + AAC MP4。
-- 沒有 API Key 時可用靜音模式驗證影片流程。
-- 內建 `skills/auto-video-deck/SKILL.md`，方便 Agent 產生影片簡報。
-
-## 安裝需求
-
-```bash
-npm install
-npm run setup:browser
-brew install ffmpeg # macOS，如尚未安裝 ffmpeg
+```text
+Storyboard → Template System → Fish Audio → Animated Browser Recording → MP4
 ```
 
-需要：
+## 0.2 Template System
+
+AutoCut 不再是「1 個固定版型 × 多種動畫」。現在三個層次彼此獨立：
+
+```text
+Template  決定整份簡報的色彩、字型、表面與背景語言
+Layout    決定單頁內容的 DOM 結構與資訊層級
+Effect    只決定進場與轉場動態
+```
+
+### 6 種視覺模板
+
+| Template | 特色 | 適用情境 |
+| --- | --- | --- |
+| `editorial` | 暖色、高質感、編輯式排版 | 策略提案、商務簡報 |
+| `corporate` | 企業藍、清楚、穩健 | 架構審查、主管報告 |
+| `midnight` | 深色、藍青科技感 | 雲端、資安、基礎設施 |
+| `aurora` | 紫青漸層、高動能 | AI、產品 Launch、Demo |
+| `paper` | 白紙格線、研究感 | 論文、分析、證據型內容 |
+| `terminal` | 黑綠 Monospace | CLI、DevOps、開發工具 |
+
+### 14 種結構版型
+
+```text
+hero          大型封面／Hook
+section       章節分隔
+split         左文右視覺
+visual-left   左視覺右文
+flow          流程與 Pipeline
+metrics       KPI 與數據證據
+compare       Before / After、A / B
+quote         大型引言與觀點
+ timeline     Roadmap 與里程碑
+cards         平行能力卡片
+statement     單一大型主張／Fact
+code          CLI、程式碼與設定檔
+architecture  分層系統架構
+ending        結論與下一步
+```
+
+詳細欄位與範例請參考 [`docs/template-system.md`](./docs/template-system.md)。
+
+## 主要功能
+
+- Storyboard JSON 與 Markdown 輸入。
+- 依內容自動推斷 `layout`，也可逐頁明確指定。
+- 6 種 deck-level Template，可由 CLI 覆寫。
+- 14 種專用 DOM Renderer，不再每頁都是同一個左右 Grid。
+- `fade`、`zoom`、`wipe`、`slide`、`spotlight`、`rise`、`none` 動態效果。
+- Fish Audio REST TTS，支援聲音模型 `reference_id`。
+- Playwright 錄製 HTML / CSS 動畫。
+- ffmpeg 輸出 H.264 + AAC MP4。
+- `--no-tts` 靜音模式，不消耗 API 額度。
+- Manifest 記錄 Template、Layout、Effect、旁白與每頁秒數。
+- Agent Skill：`skills/auto-video-deck/SKILL.md`。
+
+## 安裝
+
+需求：
 
 - Node.js 20+
 - ffmpeg / ffprobe
-- Fish Audio API Key（要產生真實配音時）
+- Fish Audio API Key（正式配音時）
 
-## 設定 Fish Audio / Fish Studio API Key
+```bash
+git clone https://github.com/rufushsu9987/autocut.git
+cd autocut
 
-請不要把 Key 寫進程式碼或 commit 到 GitHub。
+npm install
+npm run setup:browser
+brew install ffmpeg # macOS，如尚未安裝
+```
+
+檢查環境：
+
+```bash
+node bin/autocut.mjs doctor
+```
+
+## Fish Audio / Fish Studio API Key
+
+AutoCut 不會把 API Key 寫入 Storyboard、HTML 或 Repository。
 
 ```bash
 export FISH_API_KEY="your_api_key_here"
@@ -51,48 +102,78 @@ export FISH_AUDIO_API_KEY="your_api_key_here"
 export FISH_STUDIO_API_KEY="your_api_key_here"
 ```
 
-如果要指定聲音模型：
+指定聲音模型：
 
 ```bash
 export FISH_REFERENCE_ID="your_voice_model_id"
 ```
 
-## 快速使用
+## 快速開始
 
-產生 Storyboard：
+### 1. 查看可用 Template 與 Layout
 
 ```bash
-node bin/autocut.mjs create "AI Agent 技術提案" --slides 6 --out storyboard.json
+node bin/autocut.mjs templates
+node bin/autocut.mjs templates --json
 ```
 
-輸出 MP4：
+### 2. 產生多版型 Storyboard
 
 ```bash
-node bin/autocut.mjs render --input storyboard.json --out dist/demo.mp4
+node bin/autocut.mjs create \
+  "AI Agent 技術提案" \
+  --slides 8 \
+  --template aurora \
+  --out storyboard.json
 ```
 
-本機測試流程，不呼叫 TTS：
+### 3. 先用靜音模式檢查畫面
 
 ```bash
-node bin/autocut.mjs render --input examples/storyboard.json --out dist/demo.mp4 --no-tts
+node bin/autocut.mjs render \
+  --input storyboard.json \
+  --out dist/preview.mp4 \
+  --no-tts
 ```
 
-正式產生時要求一定要有 Fish Audio Key：
+### 4. 正式產生 Fish Audio 配音
 
 ```bash
-node bin/autocut.mjs render --input examples/storyboard.json --out dist/demo.mp4 --require-tts
+node bin/autocut.mjs render \
+  --input storyboard.json \
+  --out dist/final.mp4 \
+  --require-tts
 ```
 
-測試 Fish Audio 是否可用：
+### 5. 同一份 Storyboard 切換風格
 
 ```bash
-node bin/autocut.mjs fish-test --out dist/fish-test.mp3
+node bin/autocut.mjs render \
+  --input storyboard.json \
+  --template corporate \
+  --out dist/corporate.mp4 \
+  --no-tts
 ```
 
-檢查環境：
+## 全版型 Showcase
+
+`examples/template-showcase.json` 包含 14 種內建 layout：
 
 ```bash
-node bin/autocut.mjs doctor
+node bin/autocut.mjs render \
+  --input examples/template-showcase.json \
+  --out dist/template-showcase.mp4 \
+  --no-tts
+```
+
+切換成深色科技模板：
+
+```bash
+node bin/autocut.mjs render \
+  --input examples/template-showcase.json \
+  --template midnight \
+  --out dist/template-showcase-midnight.mp4 \
+  --no-tts
 ```
 
 ## Storyboard 範例
@@ -100,50 +181,88 @@ node bin/autocut.mjs doctor
 ```json
 {
   "title": "AI Agent 技術提案",
+  "template": "corporate",
   "voice": {
     "model": "s2.1-pro-free",
     "referenceId": null,
-    "prosody": { "speed": 1.0, "volume": 0 }
+    "prosody": { "speed": 1, "volume": 0 }
   },
   "slides": [
     {
+      "layout": "hero",
       "kicker": "OPENING",
       "title": "AI Agent 技術提案",
-      "body": "把內容、動畫、旁白與影片輸出串成自動化流程。",
-      "bullets": ["Storyboard", "HTML animation", "Fish Audio", "MP4 export"],
+      "subtitle": "從需求到可維護的企業 Agent 平台",
+      "tags": ["Agent", "RAG", "Cloud Native"],
       "effect": "zoom",
-      "narration": "今天要分享 AI Agent 技術提案，以及如何自動輸出有動畫與配音的影片簡報。"
+      "narration": "今天分享企業 AI Agent 平台的架構與導入方式。"
+    },
+    {
+      "layout": "flow",
+      "title": "Agent Request Flow",
+      "steps": [
+        { "title": "Gateway", "detail": "Auth and policy" },
+        { "title": "Planner", "detail": "Task decomposition" },
+        { "title": "Tools", "detail": "MCP and internal APIs" },
+        { "title": "Guardrail", "detail": "Validation and audit" }
+      ],
+      "effect": "wipe",
+      "narration": "請求先通過 Gateway，再由 Planner 拆解任務，呼叫工具並經過 Guardrail 驗證。"
     }
   ]
 }
 ```
 
-## Markdown 範例
+## 自動 Layout 推斷
 
-用 `---` 分隔投影片，`:::notes` 內文會變成旁白。
+未指定 `layout` 時，AutoCut 會依結構化欄位判斷：
+
+```text
+第一頁       → hero
+quote        → quote
+comparison   → compare
+ timeline     → timeline
+layers       → architecture
+code         → code
+steps        → flow
+metrics      → metrics
+cards        → cards
+cta 結尾頁   → ending
+短主張       → statement
+其他         → split
+```
+
+明確指定不存在的 layout 會直接報錯，避免安靜地渲染成錯誤版型。
+
+## Markdown
 
 ```markdown
-# AutoCut Demo
+---
+title: AutoCut Demo
+template: midnight
+language: zh-TW
+---
 
-把自動化簡報轉成有動畫與旁白的影片。
+# Opening
 
-- 產生 HTML Deck
-- Fish Audio 配音
-- Playwright 錄影
-
-:::notes
-這一頁介紹 AutoCut 的整體目標。
-:::
+影片簡報開場。
 
 ---
 
-# Pipeline
+<!-- layout: quote -->
+<!-- effect: spotlight -->
+<!-- quoteBy: AutoCut -->
 
-- Storyboard
-- TTS
-- Browser recording
-- MP4 muxing
+# Design Principle
+
+> Layout 是結構，Effect 是動態。
+
+:::notes
+這一段會成為旁白。
+:::
 ```
+
+需要 `metrics`、`comparison`、`timeline`、`cards`、`architecture` 等結構資料時，建議使用 JSON。
 
 ## 架構
 
@@ -151,29 +270,53 @@ node bin/autocut.mjs doctor
 Storyboard JSON / Markdown
         │
         ▼
-HTML Deck + CSS Animations
+Normalize + Layout Inference
         │
-        ├── Fish Audio TTS ──► per-slide MP3 ──► narration.mp3
+        ├── Layout Registry ──► 專用 DOM
+        ├── Template Registry ─► CSS variables / typography
+        └── Effect             ─► motion only
         │
-        └── Playwright Chromium recording ──► deck.webm
-                                      │
-                                      ▼
-                              ffmpeg mux ──► final MP4
+        ▼
+HTML Deck
+        ├── Fish Audio TTS ──► narration.mp3
+        └── Playwright ──────► deck.webm
+                       │
+                       ▼
+                 ffmpeg ──► MP4
 ```
 
-## 建議用法
+完整架構請參考 [`docs/architecture.md`](./docs/architecture.md)。
 
-- 開源專案介紹影片。
-- 技術提案或內部處會分享。
-- AI Agent / RAG / Cloud Native 架構解說。
-- 產品 Demo 或短影片素材。
+## 安全與成本
 
-## 注意事項
+- API Key 僅讀環境變數。
+- `.env`、音訊與影片檔不進 Git。
+- 使用者文字與程式碼會先 HTML escape。
+- 自訂 Theme token 會拒絕危險 CSS 分隔符號。
+- 開發與 CI 視覺驗證建議使用 `--no-tts`。
+- 正式輸出使用 `--require-tts`，避免漏設 Key 卻產生靜音影片。
 
-- 預設 TTS model 是 `s2.1-pro-free`，正式情境可用 `--model s2.1-pro`。
-- `--no-tts` 可避免開發時消耗 API 額度。
-- `--require-tts` 適合正式產出，避免忘記設定 Key 卻產出靜音影片。
-- `.env`、音訊檔、MP4 檔已在 `.gitignore` 中排除。
+## 測試
+
+```bash
+npm run check
+npm test
+npm run smoke
+```
+
+## 目前限制
+
+- 遠端圖片 URL 與 data URL 可直接使用；本機圖片自動複製到輸出目錄仍屬 Asset Pipeline 後續工作。
+- 尚未內建圖表引擎與 Mermaid 轉圖。
+- 尚未自動產生字幕與章節標記。
+
+## Roadmap
+
+- 自訂 Layout Module 與 Template Package。
+- 圖片、Logo、圖表與字型 Asset Pipeline。
+- Subtitle / SRT / burned-in captions。
+- PPTX / Marp 匯入。
+- GitHub Actions 批次渲染與 Artifact 發布。
 
 ## 授權
 

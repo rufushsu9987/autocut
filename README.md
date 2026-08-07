@@ -1,45 +1,74 @@
-# AutoCut — Animated Slides to MP4 with Fish Audio Voiceover
+# AutoCut — Multi-layout animated presentations with Fish Audio and MP4 export
 
-AutoCut turns a storyboard into a narrated MP4 presentation video:
+AutoCut is a local-first CLI that turns a structured storyboard into an animated presentation video. It renders genuinely different slide structures, synthesizes per-slide narration with Fish Audio, records CSS motion with Playwright, and muxes the result into MP4 with ffmpeg.
 
-1. generate a 16:9 HTML deck with business-style animation effects,
-2. synthesize per-slide narration with Fish Audio / Fish Studio API key,
-3. record the animated deck with Playwright,
-4. mux the video and narration into MP4 with ffmpeg.
+```text
+Storyboard → Template System → Fish Audio → Browser Recording → MP4
+```
 
-The project is inspired by the workflow style of [`claude-code-slides`](https://github.com/rufushsu9987/claude-code-slides): agent-friendly input, reproducible local output, and portable skills for Codex / Claude Code.
+Inspired by the agent-friendly workflow of [`claude-code-slides`](https://github.com/rufushsu9987/claude-code-slides), AutoCut is designed for repository demos, technical proposals, architecture reviews, product updates, and automated content pipelines.
+
+[繁體中文](./README.zh-TW.md)
+
+## Template System
+
+AutoCut 0.2 separates three independent concerns:
+
+```text
+Template  = deck-level palette, typography, surfaces, and background art
+Layout    = slide-level DOM structure and information hierarchy
+Effect    = slide-level entrance and transition motion
+```
+
+### Visual templates
+
+`editorial`, `corporate`, `midnight`, `aurora`, `paper`, and `terminal`.
+
+### Structural layouts
+
+`hero`, `section`, `split`, `visual-left`, `flow`, `metrics`, `compare`, `quote`, `timeline`, `cards`, `statement`, `code`, `architecture`, and `ending`.
+
+See [Template System documentation](./docs/template-system.md) for the field reference and examples.
 
 ## Features
 
-- Storyboard JSON and Markdown input
-- HTML deck rendering with `zoom`, `wipe`, `slide`, and `spotlight` effects
-- Fish Audio REST TTS integration via environment variables
-- Playwright browser recording that preserves CSS animations
-- ffmpeg MP4 output with AAC audio
-- Silent fallback for local development when no API key is configured
-- `skills/auto-video-deck/SKILL.md` for agent-driven deck video generation
+- Storyboard JSON and Markdown input.
+- Automatic layout inference or explicit per-slide `layout`.
+- 14 dedicated layout renderers instead of one fixed two-column DOM.
+- 6 deck-level visual templates with CLI override.
+- Independent `fade`, `zoom`, `wipe`, `slide`, `spotlight`, `rise`, and `none` effects.
+- Fish Audio REST TTS with optional `reference_id` voice model.
+- Playwright recording that preserves HTML/CSS animation.
+- ffmpeg H.264 + AAC MP4 output.
+- Silent `--no-tts` mode for visual and CI tests.
+- Manifest metadata for template, layout, effect, narration, and timing.
+- Portable Agent Skill at `skills/auto-video-deck/SKILL.md`.
 
 ## Requirements
 
 - Node.js 20+
 - ffmpeg / ffprobe
-- Fish Audio API key for voiceover
+- Fish Audio API key for real voiceover
 
 ```bash
+git clone https://github.com/rufushsu9987/autocut.git
+cd autocut
 npm install
 npm run setup:browser
-brew install ffmpeg # macOS, if ffmpeg is not installed yet
+brew install ffmpeg # macOS, if needed
 ```
 
 ## API key
 
-AutoCut never stores your key in source code. Export one of these variables:
-
 ```bash
 export FISH_API_KEY="your_api_key_here"
-# aliases also accepted:
-# export FISH_AUDIO_API_KEY="your_api_key_here"
-# export FISH_STUDIO_API_KEY="your_api_key_here"
+```
+
+Accepted aliases:
+
+```bash
+export FISH_AUDIO_API_KEY="your_api_key_here"
+export FISH_STUDIO_API_KEY="your_api_key_here"
 ```
 
 Optional voice model:
@@ -50,62 +79,86 @@ export FISH_REFERENCE_ID="your_voice_model_id"
 
 ## Quick start
 
-Create a storyboard:
+List built-in options:
 
 ```bash
-npm run create:demo
-# or
-node bin/autocut.mjs create "AI Agent 技術提案" --slides 6 --out storyboard.json
+node bin/autocut.mjs templates
 ```
 
-Render to MP4:
+Create a varied storyboard:
 
 ```bash
-node bin/autocut.mjs render --input storyboard.json --out dist/demo.mp4
+node bin/autocut.mjs create \
+  "AI Agent Architecture" \
+  --slides 8 \
+  --template midnight \
+  --out storyboard.json
 ```
 
-Render without TTS for local pipeline testing:
+Render without TTS cost:
 
 ```bash
-node bin/autocut.mjs render --input examples/storyboard.json --out dist/demo.mp4 --no-tts
+node bin/autocut.mjs render \
+  --input storyboard.json \
+  --out dist/preview.mp4 \
+  --no-tts
 ```
 
-Require real Fish Audio voiceover:
+Render final Fish Audio voiceover:
 
 ```bash
-node bin/autocut.mjs render --input examples/storyboard.json --out dist/demo.mp4 --require-tts
+node bin/autocut.mjs render \
+  --input storyboard.json \
+  --out dist/final.mp4 \
+  --require-tts
 ```
 
-Generate only a Fish Audio test clip:
+Override the visual template without rewriting slides:
 
 ```bash
-node bin/autocut.mjs fish-test --out dist/fish-test.mp3
+node bin/autocut.mjs render \
+  --input storyboard.json \
+  --template corporate \
+  --out dist/corporate.mp4 \
+  --no-tts
 ```
 
-Check environment:
+## Complete layout showcase
+
+`examples/template-showcase.json` contains all 14 built-in layouts:
 
 ```bash
-node bin/autocut.mjs doctor
+node bin/autocut.mjs render \
+  --input examples/template-showcase.json \
+  --out dist/template-showcase.mp4 \
+  --no-tts
 ```
 
-## Storyboard format
+## Storyboard example
 
 ```json
 {
-  "title": "AI Agent 技術提案",
-  "voice": {
-    "model": "s2.1-pro-free",
-    "referenceId": null,
-    "prosody": { "speed": 1.0, "volume": 0 }
-  },
+  "title": "AI Platform Review",
+  "template": "corporate",
   "slides": [
     {
-      "kicker": "OPENING",
-      "title": "AI Agent 技術提案",
-      "body": "把內容、動畫、旁白與影片輸出串成自動化流程。",
-      "bullets": ["Storyboard", "HTML animation", "Fish Audio", "MP4 export"],
+      "layout": "hero",
+      "title": "AI Platform Review",
+      "subtitle": "Architecture, controls, and roadmap",
       "effect": "zoom",
-      "narration": "今天要分享 AI Agent 技術提案，以及如何自動輸出有動畫與配音的影片簡報。"
+      "narration": "This presentation reviews the target AI platform architecture."
+    },
+    {
+      "layout": "flow",
+      "title": "Request Flow",
+      "steps": [
+        { "title": "Gateway", "detail": "Authentication and policy" },
+        { "title": "Planner", "detail": "Task decomposition" },
+        { "title": "Tools", "detail": "MCP and internal APIs" },
+        { "title": "Guardrail", "detail": "Validation and audit" }
+      ],
+      "effect": "wipe",
+      "narration": "Requests pass through the gateway, planner, tools, and guardrail."
     }
   ]
 }
@@ -117,22 +170,45 @@ node bin/autocut.mjs doctor
 Storyboard JSON / Markdown
         │
         ▼
-HTML Deck + CSS Animations
+Normalize + infer layout
         │
-        ├── Fish Audio TTS ──► per-slide MP3 ──► narration.mp3
+        ├── Layout Registry ──► distinct DOM structures
+        ├── Template Registry ─► visual language
+        └── Effect             ─► motion only
         │
-        └── Playwright Chromium recording ──► deck.webm
-                                      │
-                                      ▼
-                              ffmpeg mux ──► final MP4
+        ▼
+HTML Deck
+        ├── Fish Audio TTS ──► narration.mp3
+        └── Playwright ──────► deck.webm
+                       │
+                       ▼
+                 ffmpeg ──► MP4
 ```
 
-## Notes
+See [Architecture](./docs/architecture.md).
 
-- The default Fish model is `s2.1-pro-free` for developer-friendly testing. Use `--model s2.1-pro` for production plans.
-- `--no-tts` creates a silent narration track so MP4 rendering can be tested without spending API credits.
-- `--require-tts` is recommended for production runs because it fails fast if the API key is missing.
-- Do not commit `.env`, generated audio, or generated MP4 files.
+## Security and cost controls
+
+- API keys are read only from environment variables.
+- `.env`, generated audio, and generated videos are ignored by Git.
+- User text and code are HTML-escaped.
+- Unsafe CSS delimiters are rejected from custom theme tokens.
+- Use `--no-tts` during development and CI.
+- Use `--require-tts` for production to fail fast when the API key is missing.
+
+## Tests
+
+```bash
+npm run check
+npm test
+npm run smoke
+```
+
+## Current limitations
+
+- Remote image URLs and data URLs work directly; copying local assets into the render work directory is a future asset-pipeline feature.
+- Built-in chart and Mermaid rendering are not included yet.
+- Subtitle and chapter marker generation are planned.
 
 ## License
 

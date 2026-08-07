@@ -1,39 +1,63 @@
 # AutoCut Architecture
 
-AutoCut keeps the rendering pipeline intentionally local and reproducible.
+AutoCut keeps the rendering pipeline local and reproducible while separating information structure from visual styling.
 
 ```text
-input/storyboard
-  ├─ normalize + validate
-  ├─ render HTML deck
-  ├─ generate or synthesize per-slide audio
-  ├─ pad each slide audio to the visual duration
-  ├─ record the HTML deck in Chromium
-  └─ mux video and narration with ffmpeg
+Storyboard JSON / Markdown
+        │
+        ▼
+Normalize + infer layout
+        │
+        ├── Layout Registry ──► distinct DOM structures
+        ├── Template Registry ─► palette / typography / surfaces
+        └── Effect             ─► motion only
+        │
+        ▼
+Self-contained HTML deck
+        │
+        ├── Fish Audio TTS ──► per-slide MP3 ──► narration.mp3
+        │
+        └── Playwright recording ──────────────► deck.webm
+                                      │
+                                      ▼
+                              ffmpeg mux ──► final MP4
 ```
 
 ## Components
 
 | Component | Responsibility |
 | --- | --- |
-| `lib/storyboard.mjs` | Create, parse, and normalize Storyboard JSON / Markdown. |
-| `lib/deck-html.mjs` | Render a self-contained 16:9 HTML deck with CSS animations. |
-| `lib/fish-audio.mjs` | Call Fish Audio TTS via raw REST API. |
+| `lib/templates.mjs` | Built-in template and layout registries, aliases, safe theme resolution, and layout inference. |
+| `lib/storyboard.mjs` | Create, parse, normalize, and validate structured Storyboard JSON / Markdown. |
+| `lib/deck-html.mjs` | Dispatch each slide to a dedicated layout renderer and generate a self-contained animated deck. |
+| `lib/fish-audio.mjs` | Call Fish Audio TTS through the REST API. |
 | `lib/audio.mjs` | Use ffmpeg / ffprobe for silence, padding, concatenation, and muxing. |
-| `lib/video.mjs` | Use Playwright to record the animated deck. |
-| `lib/render.mjs` | Orchestrate the full pipeline and write `manifest.json`. |
+| `lib/video.mjs` | Use Playwright to record the animated HTML deck. |
+| `lib/render.mjs` | Orchestrate the full pipeline and write `manifest.json` with template, layout, effect, and duration metadata. |
+
+## Design boundaries
+
+- A **layout renderer** owns DOM structure and content hierarchy.
+- A **template** owns CSS variables, typography, surfaces, and background art.
+- An **effect** owns entrance or transition behavior.
+- The audio and video pipeline does not need to understand layout internals.
 
 ## Security model
 
 - Fish API keys are read only from environment variables.
 - `.env`, generated audio, and generated videos are ignored by Git.
-- The renderer runs locally; only TTS text is sent to Fish Audio when TTS is enabled.
-- `--no-tts` enables offline rendering tests with silent audio.
+- Only narration text is sent to Fish Audio when TTS is enabled.
+- `--no-tts` enables local visual tests without API usage.
+- User text and code are HTML-escaped before being injected into the generated deck.
+- Theme overrides reject CSS values containing statement or tag delimiters.
 
-## Extension ideas
+## Extension path
 
-- Import HTML exported by other slide generators.
-- Import PPTX by converting each slide into a storyboard.
-- Add subtitle generation and burned-in captions.
-- Add GitHub Actions artifact publishing for generated demo videos.
-- Add multiple voices for dialogue-style decks.
+The registry design allows future work without returning to one monolithic `renderSlide()` function:
+
+- user-defined layout modules,
+- branded template packages,
+- image and font asset packaging,
+- charts and diagram renderers,
+- subtitles and chapter markers,
+- batch rendering and CI artifact publishing.

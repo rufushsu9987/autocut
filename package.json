@@ -1,18 +1,21 @@
 {
   "name": "autocut",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Generate animated narrated MP4 presentation videos with Fish Audio voiceover.",
+  "description": "Generate structurally varied animated MP4 presentation videos with Fish Audio voiceover.",
   "bin": {
     "autocut": "./bin/autocut.mjs"
   },
   "scripts": {
-    "check": "node --check bin/autocut.mjs && node --check lib/*.mjs && node --check scripts/*.mjs && npm test",
+    "check": "node --check bin/autocut.mjs && node --check lib/*.mjs && node --check scripts/*.mjs && npm run smoke && npm test",
     "test": "node --test test/*.test.mjs",
+    "smoke": "node scripts/smoke-test.mjs",
     "doctor": "node bin/autocut.mjs doctor",
-    "create:demo": "node bin/autocut.mjs create \"AI Agent 技術提案\" --slides 6 --out examples/generated-storyboard.json",
+    "templates": "node bin/autocut.mjs templates",
+    "create:demo": "node bin/autocut.mjs create \"AI Agent 技術提案\" --slides 7 --template aurora --out examples/generated-storyboard.json",
     "render:demo": "node bin/autocut.mjs render --input examples/storyboard.json --out dist/demo.mp4 --no-tts",
+    "render:showcase": "node bin/autocut.mjs render --input examples/template-showcase.json --out dist/template-showcase.mp4 --no-tts",
     "setup:browser": "npx playwright install chromium"
   },
   "engines": {
@@ -24,6 +27,7 @@
   "keywords": [
     "presentation",
     "slides",
+    "template-system",
     "video",
     "mp4",
     "tts",
