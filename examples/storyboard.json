@@ -1,0 +1,81 @@
+{
+  "title": "AutoCut：自動生成動畫簡報影片",
+  "slug": "autocut-demo",
+  "language": "zh-TW",
+  "theme": {
+    "background": "#f6efe4",
+    "foreground": "#201916",
+    "muted": "#6f625a",
+    "accent": "#c86f43",
+    "accentSoft": "#ead2c0",
+    "panel": "#fffaf2"
+  },
+  "settings": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "minSlideSeconds": 5.2,
+    "paddingSeconds": 0.45,
+    "transitionMs": 720
+  },
+  "voice": {
+    "provider": "fish-audio",
+    "model": "s2.1-pro-free",
+    "referenceId": null,
+    "format": "mp3",
+    "latency": "balanced",
+    "prosody": {
+      "speed": 1,
+      "volume": 0
+    }
+  },
+  "slides": [
+    {
+      "kicker": "OPENING",
+      "title": "AutoCut",
+      "subtitle": "自動生成動畫簡報、配音並輸出 MP4",
+      "body": "把 Storyboard、HTML 動畫、Fish Audio 配音與 ffmpeg 合成整合成一條可重複執行的本機流程。",
+      "bullets": ["Agent-friendly", "可重複輸出", "保留動畫效果", "適合技術分享"],
+      "effect": "zoom",
+      "narration": "今天介紹 AutoCut。它可以把 Storyboard 轉成有動畫、有旁白、可以直接分享的 MP4 簡報影片。"
+    },
+    {
+      "kicker": "PIPELINE",
+      "title": "從內容到影片",
+      "body": "每頁先產生 HTML Deck，再產生旁白，接著錄製瀏覽器動畫，最後合成影片。",
+      "bullets": ["Storyboard JSON 或 Markdown", "Fish Audio TTS", "Playwright 錄製動畫", "ffmpeg 輸出 H.264 MP4"],
+      "effect": "wipe",
+      "metrics": [
+        { "value": "JSON", "label": "input" },
+        { "value": "HTML", "label": "deck" },
+        { "value": "TTS", "label": "voice" },
+        { "value": "MP4", "label": "output" }
+      ],
+      "narration": "AutoCut 的流程很單純。Storyboard 是唯一資料來源，HTML 負責視覺與動畫，Fish Audio 負責配音，ffmpeg 負責最後的影音合成。"
+    },
+    {
+      "kicker": "AGENT",
+      "title": "給 Codex / Claude Code 的 Skill",
+      "body": "Agent 可以先根據 repo 或文件產生 storyboard，再呼叫 autocut render 產出影片素材。",
+      "bullets": ["沿用 Agent Plugins / Skills 思路", "輸入輸出清楚", "不需要手動錄影", "API Key 不進入 repo"],
+      "effect": "slide",
+      "narration": "這個 repo 也提供 Skill 文件，讓 Codex 或 Claude Code 可以理解如何產生 storyboard，以及如何呼叫 AutoCut 輸出影片。"
+    },
+    {
+      "kicker": "SECURITY",
+      "title": "安全與成本控制",
+      "body": "API Key 只讀環境變數；開發時可使用 --no-tts，避免不必要的 TTS 成本。",
+      "bullets": ["FISH_API_KEY", "FISH_AUDIO_API_KEY", "FISH_STUDIO_API_KEY", "--require-tts 正式輸出"],
+      "effect": "spotlight",
+      "narration": "在企業環境中，API Key 不能被寫進 GitHub。AutoCut 只會從環境變數讀取金鑰，也提供靜音模式讓你在開發階段避免消耗配音額度。"
+    },
+    {
+      "kicker": "OUTPUT",
+      "title": "最終產出",
+      "body": "輸出資料夾會保留 HTML、逐頁音訊、narration.mp3、deck.webm、manifest.json 與 final MP4。",
+      "bullets": ["可追蹤每頁秒數", "可重跑單一流程", "適合後續接 CI/CD 或自動發布"],
+      "effect": "zoom",
+      "narration": "最後輸出的不只是一個 MP4，也會保留中間素材與 manifest，方便追蹤每頁旁白、時間長度與渲染結果。"
+    }
+  ]
+}
