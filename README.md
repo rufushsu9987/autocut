@@ -18,11 +18,16 @@ AutoCut 0.2 separates three independent concerns:
 Template  = deck-level palette, typography, surfaces, and background art
 Layout    = slide-level DOM structure and information hierarchy
 Effect    = slide-level entrance and transition motion
+Beat      = content-level reveal, focus, and completion timeline
 ```
 
 ### Visual templates
 
-`editorial`, `corporate`, `midnight`, `aurora`, `paper`, and `terminal`.
+`editorial`, `claude-editorial`, `corporate`, `midnight`, `aurora`, `paper`, and `terminal`.
+
+`claude-editorial` is the warm ivory / charcoal / terracotta visual system from
+[`claude-code-slides`](https://github.com/rufushsu9987/claude-code-slides),
+adapted to AutoCut's independent structural layouts and browser renderer.
 
 ### Structural layouts
 
@@ -34,9 +39,10 @@ See [Template System documentation](./docs/template-system.md) for the field ref
 
 - Storyboard JSON and Markdown input.
 - Automatic layout inference or explicit per-slide `layout`.
-- 14 dedicated layout renderers instead of one fixed two-column DOM.
-- 6 deck-level visual templates with CLI override.
+- 15 dedicated layout renderers instead of one fixed two-column DOM.
+- 7 deck-level visual templates with CLI override.
 - Independent `fade`, `zoom`, `wipe`, `slide`, `spotlight`, `rise`, and `none` effects.
+- Content-led `beats` for step-by-step reveal, focus, emphasis, and completion inside a slide.
 - Fish Audio REST TTS with optional `reference_id` voice model.
 - Playwright recording that preserves HTML/CSS animation.
 - ffmpeg H.264 + AAC MP4 output.

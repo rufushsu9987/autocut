@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 220" role="img" aria-label="散落的內容與檔案堆">
+  <rect width="520" height="220" fill="none"/>
+  <g fill="none" stroke="#211F1B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+
+        <path d="M58 169 L75 76 L208 63 L228 169 Z" fill="#F1D9CD" opacity="0.52"/>
+        <path d="M86 176 L100 49 L237 58 L249 176 Z" fill="#FFFDF9"/>
+        <path d="M132 178 L143 78 L286 88 L278 178 Z" fill="#FFFDF9"/>
+        <path d="M164 178 L175 104 L292 110 L289 178 Z" fill="#F1D9CD" opacity="0.74"/>
+        <path d="M100 49 L126 65 L237 58"/>
+        <path d="M143 78 L167 93 L286 88"/>
+        <path d="M175 104 L198 117 L292 110"/>
+        <path d="M56 182 Q173 163 303 184" stroke="#D97757" stroke-width="7" opacity="0.72"/>
+        <rect x="250" y="129" width="168" height="49" rx="18" fill="#FFFDF9"/>
+        <path d="M272 145 h46 M272 160 h87" stroke="#6F6962" stroke-width="3"/>
+        <circle cx="390" cy="153" r="9" fill="#D97757" stroke="none"/>
+        <text x="80" y="210" font-size="18" font-weight="800" class="muted" stroke="none">散落的內容</text>
+        <text x="314" y="116" font-size="17" font-weight="800" class="accent" stroke="none">REPO / URL / BRIEF</text>
+
+  </g>
+  <style>
+    text { font-family: Inter, Arial, sans-serif; fill: #211F1B; }
+    .muted { fill: #6F6962; }
+    .accent { fill: #D97757; }
+    .sage { fill: #5E8065; }
+  </style>
+</svg>

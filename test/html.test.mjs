@@ -48,3 +48,84 @@ test('ordinary split slides render an abstract visual instead of invented KPI ca
   assert.match(html, /abstract-scene/);
   assert.doesNotMatch(html, /<div class="mini-metrics"><div class="mini-metric"><strong>1/);
 });
+
+test('renderDeckHtml emits hooks for content-led beat animation', () => {
+  const storyboard = normalizeStoryboard({
+    title: 'Beat animation',
+    slides: [
+      { title: 'Cover' },
+      {
+        layout: 'flow',
+        title: 'Pipeline',
+        steps: ['Input', 'Render'],
+        beats: [
+          { at: 0, action: 'show-title' },
+          { at: 1.4, action: 'reveal-step', target: 0 },
+          { at: 3.2, action: 'focus-step', target: 1 }
+        ]
+      }
+    ]
+  });
+  const html = renderDeckHtml(storyboard);
+  assert.match(html, /data-beats=/);
+  assert.match(html, /data-beat-title/);
+  assert.match(html, /data-beat-target="0"/);
+  assert.match(html, /function scheduleBeats/);
+  assert.match(html, /focus-step/);
+});
+
+test('renderDeckHtml renders a simple infographic diagram with beat targets', () => {
+  const storyboard = normalizeStoryboard({
+    title: 'Infographic',
+    template: 'claude-editorial',
+    slides: [
+      { title: 'Cover' },
+      {
+        layout: 'infographic',
+        title: '問題到結果',
+        infographic: {
+          left: { title: '問題', detail: '資料散落各處' },
+          center: { title: '方法', detail: '整理成任務' },
+          right: { title: '結果', detail: '進度可見', items: ['完成', '下一步'] },
+          takeaways: ['先整理', '再執行']
+        },
+        beats: [
+          { at: 0, action: 'show-title' },
+          { at: 0.8, action: 'reveal', target: 'left' },
+          { at: 1.8, action: 'focus', target: 'center' },
+          { at: 3, action: 'reveal', target: 'right' },
+          { at: 4.2, action: 'complete' }
+        ]
+      }
+    ]
+  });
+  const html = renderDeckHtml(storyboard);
+  assert.match(html, /infographic-stage/);
+  assert.match(html, /diagram-node/);
+  assert.match(html, /diagram-arrow/);
+  assert.match(html, /data-beat-target="left"/);
+  assert.match(html, /takeaway-pill/);
+});
+
+test('renderDeckHtml can place generated SVG art inside infographic nodes', () => {
+  const storyboard = normalizeStoryboard({
+    title: 'Infographic art',
+    template: 'claude-editorial',
+    slides: [
+      { title: 'Cover' },
+      {
+        layout: 'infographic',
+        title: 'Generated art',
+        infographic: {
+          left: { title: 'Problem', detail: 'Files', art: '../examples/assets/infographic/problem.svg' },
+          center: { title: 'Method', detail: 'Core', art: '../examples/assets/infographic/method.svg' },
+          right: { title: 'Result', detail: 'Dashboard', art: '../examples/assets/infographic/result.svg' }
+        }
+      }
+    ]
+  });
+  const html = renderDeckHtml(storyboard);
+  assert.match(html, /class="diagram-art" src="\.\.\/examples\/assets\/infographic\/problem\.svg"/);
+  assert.match(html, /class="diagram-art" src="\.\.\/examples\/assets\/infographic\/method\.svg"/);
+  assert.match(html, /class="diagram-art" src="\.\.\/examples\/assets\/infographic\/result\.svg"/);
+});

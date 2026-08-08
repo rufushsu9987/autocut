@@ -40,6 +40,56 @@ test('normalization does not invent metrics for ordinary slides', () => {
   assert.equal(storyboard.slides[1].layout, 'split');
 });
 
+test('normalizes beat timelines for content-led animation', () => {
+  const storyboard = normalizeStoryboard({
+    title: 'Beat timeline',
+    slides: [
+      { title: 'Cover' },
+      {
+        layout: 'flow',
+        title: 'Pipeline',
+        steps: ['Input', 'Render'],
+        beats: [
+          { at: 3.2, action: 'focus-step', target: 1 },
+          { at: 0, action: 'show-title' },
+          { at: 1.4, action: 'reveal-step', target: 0 }
+        ]
+      }
+    ]
+  });
+
+  assert.deepEqual(storyboard.slides[1].beats, [
+    { at: 0, action: 'show-title', target: null },
+    { at: 1.4, action: 'reveal-step', target: '0' },
+    { at: 3.2, action: 'focus-step', target: '1' }
+  ]);
+});
+
+test('normalizes infographic diagram nodes and takeaways', () => {
+  const storyboard = normalizeStoryboard({
+    title: 'Infographic',
+    slides: [
+      { title: 'Cover' },
+      {
+        layout: 'infographic',
+        title: '把複雜流程畫成一眼看懂的圖',
+        infographic: {
+          left: { title: '問題', detail: '資料散落各處', value: '9,708' },
+          center: { title: '方法', detail: '建立可玩的任務流程', icon: '→' },
+          right: { title: '結果', detail: '進度與完成狀態可見', items: ['完成', '下一步'] },
+          takeaways: ['先救回版本', '再建立流程', '最後看見進度']
+        }
+      }
+    ]
+  });
+
+  assert.equal(storyboard.slides[1].layout, 'infographic');
+  assert.equal(storyboard.slides[1].infographic.left.value, '9,708');
+  assert.equal(storyboard.slides[1].infographic.center.title, '方法');
+  assert.deepEqual(storyboard.slides[1].infographic.right.items, ['完成', '下一步']);
+  assert.deepEqual(storyboard.slides[1].infographic.takeaways, ['先救回版本', '再建立流程', '最後看見進度']);
+});
+
 test('unknown explicit layout fails fast', () => {
   assert.throws(() => normalizeStoryboard({
     title: 'Bad layout',
