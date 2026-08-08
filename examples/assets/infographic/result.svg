@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 220" role="img" aria-label="可交付輸出工作儀表板">
+  <rect width="520" height="220" fill="none"/>
+  <g fill="none" stroke="#211F1B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+
+        <rect x="52" y="30" width="326" height="163" rx="20" fill="#FFFDF9"/>
+        <rect x="72" y="48" width="286" height="34" rx="17" fill="#F1D9CD" opacity="0.78"/>
+        <text x="91" y="71" font-size="18" font-weight="800" stroke="none">交付面板</text>
+        <text x="305" y="71" font-size="17" font-weight="800" class="accent" stroke="none">LV. 08</text>
+        <text x="76" y="106" font-size="14" font-weight="800" class="muted" stroke="none">本輪進度</text>
+        <rect x="76" y="116" width="238" height="17" rx="9" fill="#FFFDF9"/>
+        <rect x="80" y="120" width="158" height="9" rx="5" fill="#211F1B" stroke="none"/>
+        <rect x="76" y="147" width="238" height="31" rx="15" fill="#FFFDF9"/>
+        <circle cx="94" cy="162" r="8" fill="#5E8065"/>
+        <path d="M89 162 l4 4 l7 -9" stroke="#FFFDF9" stroke-width="3"/>
+        <text x="113" y="168" font-size="15" font-weight="800" stroke="none">可編輯 · 可驗證</text>
+        <polygon points="427.0,75.0 437.6,101.4 466.0,103.3 444.1,121.6 451.1,149.2 427.0,134.0 402.9,149.2 409.9,121.6 388.0,103.3 416.4,101.4" fill="#F1D9CD"/>
+        <text x="408" y="121" font-size="16" font-weight="900" class="accent" stroke="none">+XP</text>
+        <path d="M387 168 l29 23 M416 191 l19 -29" stroke="#D97757" stroke-width="4"/>
+        <text x="111" y="214" font-size="18" font-weight="800" class="sage" stroke="none">READY TO SHIP</text>
+
+  </g>
+  <style>
+    text { font-family: Inter, Arial, sans-serif; fill: #211F1B; }
+    .muted { fill: #6F6962; }
+    .accent { fill: #D97757; }
+    .sage { fill: #5E8065; }
+  </style>
+</svg>

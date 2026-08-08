@@ -57,6 +57,7 @@ Use one deck-level template:
 | Template | Use when |
 | --- | --- |
 | `editorial` | Premium business, strategy, consulting-style narrative |
+| `claude-editorial` | claude-code-slides warm ivory / charcoal / terracotta technical storytelling |
 | `corporate` | Enterprise architecture, executive report, cloud review |
 | `midnight` | Infrastructure, platform, cybersecurity, technical product |
 | `aurora` | AI, launch, product demo, high-energy video |
@@ -75,6 +76,7 @@ Use at least four distinct layouts in a normal 6–10 slide deck.
 | Chapter reset | `section` | `title`, `subtitle` |
 | General explanation | `split` or `visual-left` | `body`, `bullets`, optional `image` |
 | Process or request path | `flow` | `steps` |
+| One-glance explanation | `infographic` | `infographic.left`, `.center`, `.right`, `takeaways` |
 | KPI or benchmark | `metrics` | `metrics` |
 | Before / after or choices | `compare` | `comparison` |
 | Memorable insight | `quote` | `quote`, `quoteBy` |

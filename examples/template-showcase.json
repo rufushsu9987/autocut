@@ -15,7 +15,10 @@
     "provider": "fish-audio",
     "model": "s2.1-pro-free",
     "referenceId": null,
-    "prosody": { "speed": 1, "volume": 0 }
+    "prosody": {
+      "speed": 1,
+      "volume": 0
+    }
   },
   "brand": {
     "name": "AutoCut",
@@ -27,12 +30,17 @@
     {
       "layout": "hero",
       "kicker": "TEMPLATE SYSTEM / 0.2",
-      "title": "14 種結構版型 × 6 種視覺模板",
+      "title": "15 種結構版型 × 7 種視覺模板",
       "subtitle": "讓內容決定版型，讓模板建立一致的品牌語言。",
       "body": "Layout、Template 與 Effect 分離，影片 Pipeline 維持不變。",
-      "tags": ["Slidev-inspired layouts", "Theme presets", "Fish Audio", "MP4"],
+      "tags": [
+        "Slidev-inspired layouts",
+        "Theme presets",
+        "Fish Audio",
+        "MP4"
+      ],
       "effect": "zoom",
-      "narration": "這份 Showcase 會展示 AutoCut 新增的十四種結構版型，以及六種可切換的視覺模板。"
+      "narration": "這份 Showcase 會展示 AutoCut 新增的十五種結構版型，以及七種可切換的視覺模板。"
     },
     {
       "layout": "section",
@@ -57,7 +65,11 @@
       "kicker": "SPLIT",
       "title": "左側論點，右側視覺",
       "body": "適合概念解釋、產品功能與技術架構導讀。沒有圖片時會使用抽象視覺，不會自動捏造 KPI。",
-      "bullets": ["文字比例較高", "右側可放圖片、metrics 或抽象視覺", "適合多數一般內容頁"],
+      "bullets": [
+        "文字比例較高",
+        "右側可放圖片、metrics 或抽象視覺",
+        "適合多數一般內容頁"
+      ],
       "effect": "wipe",
       "narration": "Split 是一般內容頁。左側放論點，右側放圖片、指標或抽象視覺，而且不會再自動產生不存在的 KPI。"
     },
@@ -67,10 +79,22 @@
       "title": "需要先看證據時，視覺放左邊",
       "body": "把畫面閱讀順序反轉，適合 Demo、數據截圖與 Before / After 的第一印象。",
       "metrics": [
-        { "value": "01", "label": "visual first" },
-        { "value": "02", "label": "explain second" },
-        { "value": "03", "label": "action last" },
-        { "value": "16:9", "label": "video frame" }
+        {
+          "value": "01",
+          "label": "visual first"
+        },
+        {
+          "value": "02",
+          "label": "explain second"
+        },
+        {
+          "value": "03",
+          "label": "action last"
+        },
+        {
+          "value": "16:9",
+          "label": "video frame"
+        }
       ],
       "effect": "slide",
       "narration": "Visual Left 會把視覺放在左側，適合先讓觀眾看到證據或產品畫面，再閱讀右側解釋。"
@@ -81,15 +105,95 @@
       "title": "從 Storyboard 到 MP4",
       "body": "流程版型以方向性與步驟關係為主。",
       "steps": [
-        { "title": "Intake", "detail": "Repo / URL / Brief" },
-        { "title": "Story", "detail": "Outline + narration" },
-        { "title": "Layout", "detail": "Structural renderer" },
-        { "title": "Voice", "detail": "Fish Audio" },
-        { "title": "Record", "detail": "Playwright" },
-        { "title": "Mux", "detail": "ffmpeg MP4" }
+        {
+          "title": "Intake",
+          "detail": "Repo / URL / Brief"
+        },
+        {
+          "title": "Story",
+          "detail": "Outline + narration"
+        },
+        {
+          "title": "Layout",
+          "detail": "Structural renderer"
+        },
+        {
+          "title": "Voice",
+          "detail": "Fish Audio"
+        },
+        {
+          "title": "Record",
+          "detail": "Playwright"
+        },
+        {
+          "title": "Mux",
+          "detail": "ffmpeg MP4"
+        }
       ],
       "effect": "rise",
       "narration": "Flow 版型用來呈現步驟與方向，這裡展示從素材輸入到 MP4 合成的六個階段。"
+    },
+    {
+      "layout": "infographic",
+      "kicker": "INFOGRAPHIC",
+      "title": "一張圖說清楚一個系統",
+      "body": "問題、方法、結果，搭配三個短 takeaway。",
+      "infographic": {
+        "left": {
+          "title": "Problem",
+          "detail": "先定義卡住的地方",
+          "value": "01",
+          "art": "../examples/assets/infographic/problem.svg"
+        },
+        "center": {
+          "title": "Method",
+          "detail": "用流程與圖解拆開",
+          "icon": "→",
+          "art": "../examples/assets/infographic/method.svg"
+        },
+        "right": {
+          "title": "Result",
+          "detail": "讓狀態與下一步可見",
+          "items": [
+            "Clear",
+            "Actionable"
+          ],
+          "status": "READY",
+          "art": "../examples/assets/infographic/result.svg"
+        },
+        "takeaways": [
+          "先講結果",
+          "再畫關係",
+          "最後給行動"
+        ]
+      },
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 0.8,
+          "action": "reveal",
+          "target": "left"
+        },
+        {
+          "at": 1.8,
+          "action": "focus",
+          "target": "center"
+        },
+        {
+          "at": 3.0,
+          "action": "reveal",
+          "target": "right"
+        },
+        {
+          "at": 4.5,
+          "action": "complete"
+        }
+      ],
+      "effect": "rise",
+      "narration": "Infographic 版型用一張圖說清楚一個系統，先講問題，再畫方法，最後讓結果與下一步可見。"
     },
     {
       "layout": "metrics",
@@ -97,10 +201,26 @@
       "title": "用真正的資料建立視覺證據",
       "body": "只有 Storyboard 明確提供 metrics 時才會顯示 KPI 卡片。",
       "metrics": [
-        { "value": "14", "label": "layouts", "detail": "不同 DOM 結構" },
-        { "value": "6", "label": "templates", "detail": "可切換視覺語言" },
-        { "value": "7", "label": "effects", "detail": "與 layout 分離" },
-        { "value": "0", "label": "fake KPI", "detail": "不再自動補數字" }
+        {
+          "value": "14",
+          "label": "layouts",
+          "detail": "不同 DOM 結構"
+        },
+        {
+          "value": "7",
+          "label": "templates",
+          "detail": "可切換視覺語言"
+        },
+        {
+          "value": "7",
+          "label": "effects",
+          "detail": "與 layout 分離"
+        },
+        {
+          "value": "0",
+          "label": "fake KPI",
+          "detail": "不再自動補數字"
+        }
       ],
       "effect": "zoom",
       "narration": "Metrics 版型只會使用 Storyboard 真正提供的數字。沒有資料時，不會自動補上假的 KPI。"
@@ -114,13 +234,21 @@
           "eyebrow": "BEFORE",
           "title": "固定 DOM",
           "body": "每頁都是左文右卡片。",
-          "items": ["內容比例相同", "缺乏視覺節奏", "動畫被誤認為模板"]
+          "items": [
+            "內容比例相同",
+            "缺乏視覺節奏",
+            "動畫被誤認為模板"
+          ]
         },
         "right": {
           "eyebrow": "AFTER",
           "title": "Renderer Registry",
           "body": "每種內容使用專用結構。",
-          "items": ["Layout 自動推斷", "Template 可獨立切換", "Effect 只負責動態"]
+          "items": [
+            "Layout 自動推斷",
+            "Template 可獨立切換",
+            "Effect 只負責動態"
+          ]
         }
       },
       "effect": "slide",
@@ -133,7 +261,11 @@
       "quote": "讓內容決定版型，而不是讓版型限制內容。",
       "quoteBy": "AutoCut Design Principle",
       "body": "Quote 版型刻意降低其他資訊密度，把一句話變成整段影片的記憶點。",
-      "tags": ["Focus", "Pause", "Recall"],
+      "tags": [
+        "Focus",
+        "Pause",
+        "Recall"
+      ],
       "effect": "spotlight",
       "narration": "讓內容決定版型，而不是讓版型限制內容。這是新版 Template System 最重要的設計原則。"
     },
@@ -143,10 +275,26 @@
       "title": "AutoCut Roadmap",
       "body": "時間軸版型適合里程碑、季度規劃與產品 Roadmap。",
       "timeline": [
-        { "label": "0.1", "title": "Pipeline", "detail": "Storyboard、TTS、錄影與 MP4" },
-        { "label": "0.2", "title": "Templates", "detail": "多 layout、多 theme" },
-        { "label": "0.3", "title": "Assets", "detail": "圖片、Logo、圖表與字型" },
-        { "label": "1.0", "title": "Automation", "detail": "字幕、批次渲染與發布" }
+        {
+          "label": "0.1",
+          "title": "Pipeline",
+          "detail": "Storyboard、TTS、錄影與 MP4"
+        },
+        {
+          "label": "0.2",
+          "title": "Templates",
+          "detail": "多 layout、多 theme"
+        },
+        {
+          "label": "0.3",
+          "title": "Assets",
+          "detail": "圖片、Logo、圖表與字型"
+        },
+        {
+          "label": "1.0",
+          "title": "Automation",
+          "detail": "字幕、批次渲染與發布"
+        }
       ],
       "effect": "wipe",
       "narration": "Timeline 版型可以呈現版本演進。零點二版完成模板系統，後續會加入素材、字幕與批次渲染。"
@@ -157,10 +305,26 @@
       "title": "模組化能力總覽",
       "body": "Cards 適合平行概念，不暗示先後順序。",
       "cards": [
-        { "tag": "STORY", "title": "Story Model", "body": "結構化欄位與旁白。" },
-        { "tag": "DESIGN", "title": "Template", "body": "色彩、字型與裝飾語言。" },
-        { "tag": "MOTION", "title": "Effect", "body": "進場與轉場節奏。" },
-        { "tag": "MEDIA", "title": "Render", "body": "TTS、瀏覽器錄影與 MP4。" }
+        {
+          "tag": "STORY",
+          "title": "Story Model",
+          "body": "結構化欄位與旁白。"
+        },
+        {
+          "tag": "DESIGN",
+          "title": "Template",
+          "body": "色彩、字型與裝飾語言。"
+        },
+        {
+          "tag": "MOTION",
+          "title": "Effect",
+          "body": "進場與轉場節奏。"
+        },
+        {
+          "tag": "MEDIA",
+          "title": "Render",
+          "body": "TTS、瀏覽器錄影與 MP4。"
+        }
       ],
       "effect": "rise",
       "narration": "Cards 版型適合沒有先後關係的平行概念，例如 Story、Design、Motion 與 Media 四個能力模組。"
@@ -170,16 +334,23 @@
       "kicker": "CODE",
       "title": "CLI 直接切換 Template",
       "body": "同一份 Storyboard 可以輸出不同品牌風格，不需要修改每一頁內容。",
-      "bullets": ["先用 --no-tts 驗證畫面", "正式輸出使用 --require-tts", "Manifest 會記錄 layout 與 effect"],
+      "bullets": [
+        "先用 --no-tts 驗證畫面",
+        "正式輸出使用 --require-tts",
+        "Manifest 會記錄 layout 與 effect"
+      ],
       "code": {
         "language": "bash",
         "filename": "render-themes.sh",
-        "content": "for template in editorial corporate midnight aurora paper terminal; do\n  node bin/autocut.mjs render \\\n    --input examples/template-showcase.json \\\n    --template $template \\\n    --out dist/showcase-$template.mp4 \\\n    --no-tts\ndone",
-        "highlights": [1, 4],
-        "caption": "同一份內容，輸出六種視覺模板。"
+        "content": "for template in editorial claude-editorial corporate midnight aurora paper terminal; do\n  node bin/autocut.mjs render \\\n    --input examples/template-showcase.json \\\n    --template $template \\\n    --out dist/showcase-$template.mp4 \\\n    --no-tts\ndone",
+        "highlights": [
+          1,
+          4
+        ],
+        "caption": "同一份內容，輸出七種視覺模板。"
       },
       "effect": "zoom",
-      "narration": "CLI 可以用 template 參數覆寫視覺模板，因此同一份 Storyboard 可以批次輸出六種不同品牌風格。"
+      "narration": "CLI 可以用 template 參數覆寫視覺模板，因此同一份 Storyboard 可以批次輸出七種不同品牌風格。"
     },
     {
       "layout": "architecture",
@@ -187,10 +358,40 @@
       "title": "Template System 架構",
       "body": "Layout Registry 與 Theme Registry 是獨立模組。",
       "layers": [
-        { "title": "Input", "items": ["JSON", "Markdown", "Agent Skill"] },
-        { "title": "Model", "items": ["layout", "steps", "metrics", "comparison", "timeline"] },
-        { "title": "Presentation", "items": ["renderer registry", "theme variables", "effects"] },
-        { "title": "Media", "items": ["Fish Audio", "Playwright", "ffmpeg"] }
+        {
+          "title": "Input",
+          "items": [
+            "JSON",
+            "Markdown",
+            "Agent Skill"
+          ]
+        },
+        {
+          "title": "Model",
+          "items": [
+            "layout",
+            "steps",
+            "metrics",
+            "comparison",
+            "timeline"
+          ]
+        },
+        {
+          "title": "Presentation",
+          "items": [
+            "renderer registry",
+            "theme variables",
+            "effects"
+          ]
+        },
+        {
+          "title": "Media",
+          "items": [
+            "Fish Audio",
+            "Playwright",
+            "ffmpeg"
+          ]
+        }
       ],
       "effect": "slide",
       "narration": "架構版型適合技術簡報。這裡把 AutoCut 分成輸入、模型、呈現與影音四層。"
@@ -201,7 +402,11 @@
       "title": "開始用真正的版型系統產生影片",
       "body": "選擇 Template、建立 Storyboard，然後輸出動畫與 Fish Audio 旁白。",
       "cta": "node bin/autocut.mjs render --input examples/template-showcase.json --out dist/showcase.mp4 --require-tts",
-      "tags": ["Local-first", "Agent-ready", "Reproducible"],
+      "tags": [
+        "Local-first",
+        "Agent-ready",
+        "Reproducible"
+      ],
       "effect": "spotlight",
       "narration": "現在可以直接使用 Template Showcase 驗證所有版型，再換成自己的內容與 Fish Audio 聲音模型輸出正式影片。"
     }

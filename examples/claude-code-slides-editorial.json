@@ -1,0 +1,415 @@
+{
+  "title": "Claude Code Slides",
+  "slug": "claude-code-slides-editorial",
+  "language": "zh-TW",
+  "template": "claude-editorial",
+  "settings": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "minSlideSeconds": 5.2,
+    "paddingSeconds": 0.45,
+    "transitionMs": 720
+  },
+  "voice": {
+    "provider": "fish-audio",
+    "model": "s2.1-pro-free",
+    "referenceId": null,
+    "prosody": {
+      "speed": 1,
+      "volume": 0
+    }
+  },
+  "brand": {
+    "name": "Claude Code Slides",
+    "label": "Portable presentation workflow",
+    "showProgress": true,
+    "showSlideNumber": true
+  },
+  "slides": [
+    {
+      "layout": "hero",
+      "kicker": "CLAUDE CODE SLIDES / PROMO",
+      "title": "Claude Code Slides",
+      "subtitle": "把 Repository 變成可交付的故事型簡報",
+      "body": "一套 Portable Core，連接內容、結構與輸出格式。",
+      "tags": [
+        "HTML",
+        "Marp",
+        "PPTX"
+      ],
+      "effect": "zoom",
+      "narration": "Claude Code Slides 把一個主題、文件、網址或 Repository，整理成可以交付的故事型簡報。",
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 2.8,
+          "action": "complete"
+        }
+      ]
+    },
+    {
+      "layout": "statement",
+      "kicker": "THE PROBLEM",
+      "title": "同一份內容，不該在每個 Host 重做一次。",
+      "statement": "Portable Core 把同一套簡報工作流帶到多個 Agent Host。",
+      "emphasis": "PORTABLE CORE",
+      "body": "Codex、Claude Code 與相容 Host 共用同一套可驗證資源。",
+      "effect": "spotlight",
+      "narration": "當同一份內容要跨不同 Agent Host 與輸出格式整理時，Portable Core 讓工作流可以被共用，而不是重新開始。",
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 2.4,
+          "action": "emphasize",
+          "target": "emphasis"
+        },
+        {
+          "at": 4.6,
+          "action": "complete"
+        }
+      ]
+    },
+    {
+      "id": "slide-infographic",
+      "layout": "infographic",
+      "kicker": "ONE-GLANCE MODEL",
+      "title": "把複雜工作流畫成三步",
+      "body": "先看問題，再看方法，最後確認能不能交付。",
+      "infographic": {
+        "left": {
+          "title": "內容散落",
+          "detail": "Repo / URL / Brief",
+          "value": "01",
+          "icon": "!",
+          "art": "../examples/assets/infographic/problem.svg"
+        },
+        "center": {
+          "title": "Portable Core",
+          "detail": "Story + Layout + Verify",
+          "icon": "→",
+          "art": "../examples/assets/infographic/method.svg"
+        },
+        "right": {
+          "title": "可交付輸出",
+          "detail": "HTML / Marp / PPTX",
+          "items": [
+            "可編輯",
+            "可驗證"
+          ],
+          "status": "READY",
+          "icon": "✓",
+          "art": "../examples/assets/infographic/result.svg"
+        },
+        "takeaways": [
+          "先整理來源",
+          "再建立故事",
+          "最後輸出影片"
+        ]
+      },
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 0.8,
+          "action": "reveal",
+          "target": "left"
+        },
+        {
+          "at": 2.0,
+          "action": "focus",
+          "target": "center"
+        },
+        {
+          "at": 3.2,
+          "action": "reveal",
+          "target": "right"
+        },
+        {
+          "at": 4.0,
+          "action": "reveal",
+          "target": "takeaway-0"
+        },
+        {
+          "at": 4.2,
+          "action": "reveal",
+          "target": "takeaway-1"
+        },
+        {
+          "at": 4.4,
+          "action": "reveal",
+          "target": "takeaway-2"
+        },
+        {
+          "at": 4.9,
+          "action": "complete"
+        }
+      ],
+      "effect": "rise",
+      "narration": "把這套工作流簡化成三步：先整理散落的內容，再用 Portable Core 建立故事與驗證，最後輸出可以編輯與交付的格式。"
+    },
+    {
+      "layout": "flow",
+      "kicker": "THE WORKFLOW",
+      "title": "從 Repository 到三種可交付格式",
+      "body": "先整理故事，再選擇適合內容的版型與輸出格式。",
+      "steps": [
+        {
+          "title": "Intake",
+          "detail": "Topic / Document / URL / Repository"
+        },
+        {
+          "title": "Story",
+          "detail": "Claim-first narrative + layout"
+        },
+        {
+          "title": "HTML",
+          "detail": "固定 16:9 deck + speaker notes"
+        },
+        {
+          "title": "Marp",
+          "detail": "可攜式 Markdown 投影片"
+        },
+        {
+          "title": "PPTX",
+          "detail": "可編輯寬螢幕簡報"
+        }
+      ],
+      "effect": "rise",
+      "narration": "工作流從來源整理開始，接著建立故事與版型，最後輸出 HTML、Marp 或可編輯的 PPTX。",
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 0.9,
+          "action": "reveal-step",
+          "target": 0
+        },
+        {
+          "at": 1.9,
+          "action": "reveal-step",
+          "target": 1
+        },
+        {
+          "at": 2.9,
+          "action": "focus-step",
+          "target": 2
+        },
+        {
+          "at": 3.9,
+          "action": "reveal-step",
+          "target": 3
+        },
+        {
+          "at": 4.1,
+          "action": "reveal-step",
+          "target": 4
+        },
+        {
+          "at": 4.8,
+          "action": "complete-flow"
+        }
+      ]
+    },
+    {
+      "layout": "architecture",
+      "kicker": "THE ARCHITECTURE",
+      "title": "同一個 Core，跨 Host 與格式重用",
+      "body": "Portable 資源、Host adapter 與品質檢查彼此分層。",
+      "layers": [
+        {
+          "title": "Portable Core",
+          "items": [
+            "Skills",
+            "References",
+            "Scripts"
+          ]
+        },
+        {
+          "title": "Host Adapters",
+          "items": [
+            "Codex plugin",
+            "Claude Code plugin",
+            "Compatible hosts"
+          ]
+        },
+        {
+          "title": "Quality Gates",
+          "items": [
+            "check",
+            "validate",
+            "smoke",
+            "tests"
+          ]
+        },
+        {
+          "title": "Outputs",
+          "items": [
+            "HTML",
+            "Marp",
+            "Editable PPTX"
+          ]
+        }
+      ],
+      "effect": "slide",
+      "narration": "架構上，Portable Core 保存共同規則，Codex 與 Claude Code 各自提供 adapter，再由檢查與測試守住輸出品質。",
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 0.8,
+          "action": "reveal",
+          "target": 0
+        },
+        {
+          "at": 1.9,
+          "action": "reveal",
+          "target": 1
+        },
+        {
+          "at": 3.0,
+          "action": "focus",
+          "target": 2
+        },
+        {
+          "at": 4.3,
+          "action": "complete"
+        }
+      ]
+    },
+    {
+      "layout": "code",
+      "kicker": "THE CLI",
+      "title": "先探索，再建立，再驗證",
+      "body": "CLI 讓視覺主題與語意版型變成可發現、可檢查的資源。",
+      "bullets": [
+        "templates 發現視覺主題",
+        "layouts 選擇語意版型",
+        "check 驗證輸出"
+      ],
+      "code": {
+        "language": "bash",
+        "filename": "claude-slides.sh",
+        "content": "claude-slides templates\nclaude-slides layouts\nclaude-slides check .",
+        "highlights": [
+          1,
+          2,
+          3
+        ],
+        "caption": "從探索到驗證，指令與規則保持在同一個 Repository。"
+      },
+      "effect": "zoom",
+      "narration": "使用者可以先探索可用的主題與版型，再建立簡報，最後用 check 驗證輸出，而不是只依賴肉眼檢查。",
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 0.8,
+          "action": "reveal",
+          "target": 0
+        },
+        {
+          "at": 1.8,
+          "action": "reveal",
+          "target": 1
+        },
+        {
+          "at": 2.8,
+          "action": "focus",
+          "target": 2
+        },
+        {
+          "at": 4.8,
+          "action": "complete"
+        }
+      ]
+    },
+    {
+      "layout": "compare",
+      "kicker": "BEFORE / AFTER",
+      "title": "從各自整理，變成共用工作流",
+      "comparison": {
+        "left": {
+          "eyebrow": "BEFORE",
+          "title": "每個 Host 各自整理",
+          "body": "同一份內容在不同環境重複編排。",
+          "items": [
+            "Prompt 重複",
+            "格式分叉",
+            "驗證分散"
+          ]
+        },
+        "right": {
+          "eyebrow": "AFTER",
+          "title": "Portable Core",
+          "body": "同一套規則透過不同 adapter 交付。",
+          "items": [
+            "Skills 共用",
+            "輸出可選",
+            "Check 與 tests 共用"
+          ]
+        }
+      },
+      "effect": "slide",
+      "narration": "差異不只是換一個工具，而是把內容規則、版型選擇與驗證鏈集中在同一套 Portable Core。",
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 0.9,
+          "action": "reveal",
+          "target": "left"
+        },
+        {
+          "at": 2.8,
+          "action": "focus",
+          "target": "right"
+        },
+        {
+          "at": 4.7,
+          "action": "complete"
+        }
+      ]
+    },
+    {
+      "layout": "ending",
+      "kicker": "START FROM YOUR REPOSITORY",
+      "title": "把自己的 Repository 交給 create-deck",
+      "body": "從主題、文件、URL 或 Repository 開始，讓內容先成為故事，再成為簡報。這是獨立社群專案，與 Anthropic、OpenAI 均無官方關聯或背書。",
+      "cta": "/claude-code-slides:create-deck",
+      "tags": [
+        "MIT",
+        "Community project",
+        "HTML / Marp / PPTX"
+      ],
+      "effect": "spotlight",
+      "narration": "下一步，就是把自己的 Repository 交給 create-deck，從內容開始產生一份真正可交付的簡報。",
+      "beats": [
+        {
+          "at": 0,
+          "action": "show-title"
+        },
+        {
+          "at": 2.4,
+          "action": "complete"
+        }
+      ]
+    }
+  ]
+}

@@ -18,18 +18,19 @@ Layout    決定單頁內容的 DOM 結構與資訊層級
 Effect    只決定進場與轉場動態
 ```
 
-### 6 種視覺模板
+### 7 種視覺模板
 
 | Template | 特色 | 適用情境 |
 | --- | --- | --- |
 | `editorial` | 暖色、高質感、編輯式排版 | 策略提案、商務簡報 |
+| `claude-editorial` | 暖米白、炭黑、陶土橘；沿用 claude-code-slides 視覺語言 | Claude Code Slides 技術簡報、開發工具、架構說明 |
 | `corporate` | 企業藍、清楚、穩健 | 架構審查、主管報告 |
 | `midnight` | 深色、藍青科技感 | 雲端、資安、基礎設施 |
 | `aurora` | 紫青漸層、高動能 | AI、產品 Launch、Demo |
 | `paper` | 白紙格線、研究感 | 論文、分析、證據型內容 |
 | `terminal` | 黑綠 Monospace | CLI、DevOps、開發工具 |
 
-### 14 種結構版型
+### 15 種結構版型
 
 ```text
 hero          大型封面／Hook
@@ -37,6 +38,7 @@ section       章節分隔
 split         左文右視覺
 visual-left   左視覺右文
 flow          流程與 Pipeline
+infographic   問題 → 方法 → 結果簡單圖解
 metrics       KPI 與數據證據
 compare       Before / After、A / B
 quote         大型引言與觀點
@@ -54,8 +56,8 @@ ending        結論與下一步
 
 - Storyboard JSON 與 Markdown 輸入。
 - 依內容自動推斷 `layout`，也可逐頁明確指定。
-- 6 種 deck-level Template，可由 CLI 覆寫。
-- 14 種專用 DOM Renderer，不再每頁都是同一個左右 Grid。
+- 7 種 deck-level Template，可由 CLI 覆寫。
+- 15 種專用 DOM Renderer，不再每頁都是同一個左右 Grid。
 - `fade`、`zoom`、`wipe`、`slide`、`spotlight`、`rise`、`none` 動態效果。
 - Fish Audio REST TTS，支援聲音模型 `reference_id`。
 - Playwright 錄製 HTML / CSS 動畫。
@@ -157,7 +159,7 @@ node bin/autocut.mjs render \
 
 ## 全版型 Showcase
 
-`examples/template-showcase.json` 包含 14 種內建 layout：
+`examples/template-showcase.json` 包含 15 種內建 layout：
 
 ```bash
 node bin/autocut.mjs render \

@@ -6,6 +6,7 @@ AutoCut 0.2 separates three concepts that were previously mixed together:
 Template  = deck-level visual language
 Layout    = slide-level information structure
 Effect    = slide-level motion behavior
+Beat      = content-level reveal, focus, and completion timeline
 ```
 
 Changing an effect must not change the content hierarchy. Changing a template must not rewrite the storyboard. Changing a layout must create a genuinely different DOM structure.
@@ -26,6 +27,7 @@ AutoCut applies these ideas to a local Storyboard → TTS → browser recording 
 | Template | Mode | Best for |
 | --- | --- | --- |
 | `editorial` | Light | Strategy, proposals, premium business storytelling |
+| `claude-editorial` | Light | claude-code-slides warm ivory, charcoal, and terracotta technical storytelling |
 | `corporate` | Light | Enterprise architecture, executive reports, cloud reviews |
 | `midnight` | Dark | Technical products, infrastructure, cybersecurity |
 | `aurora` | Dark | AI launches, product demos, high-energy videos |
@@ -76,6 +78,7 @@ Use a built-in template as the safe base and override only the required tokens:
 | `split` | `body`, `bullets`, `image`, `metrics` | General explanation, visual on right |
 | `visual-left` | `body`, `bullets`, `image`, `metrics` | Evidence-first explanation |
 | `flow` | `steps` | Process, pipeline, request flow |
+| `infographic` | `infographic.left`, `.center`, `.right`, `takeaways` | Simple problem → method → result diagram |
 | `metrics` | `metrics` | KPI, benchmark, evidence |
 | `compare` | `comparison.left`, `comparison.right` | Before / after, option A / B |
 | `quote` | `quote`, `quoteBy`, `quoteSource` | Testimonial, insight, design principle |
@@ -116,6 +119,30 @@ end         -> ending
   ],
   "effect": "wipe",
   "narration": "The pipeline moves from source intake to story, deck, voice, and final rendering."
+}
+```
+
+### Infographic
+
+Use `infographic` when one simple diagram can explain the relationship better than a list of cards:
+
+```json
+{
+  "layout": "infographic",
+  "title": "把複雜工作流畫成三步",
+  "infographic": {
+    "left": { "title": "問題", "detail": "資料散落各處", "value": "01" },
+    "center": { "title": "方法", "detail": "Story + Layout + Verify" },
+    "right": { "title": "結果", "detail": "HTML / Marp / PPTX", "items": ["可編輯", "可驗證"] },
+    "takeaways": ["先整理來源", "再建立故事", "最後輸出影片"]
+  },
+  "beats": [
+    { "at": 0, "action": "show-title" },
+    { "at": 0.8, "action": "reveal", "target": "left" },
+    { "at": 2, "action": "focus", "target": "center" },
+    { "at": 3.2, "action": "reveal", "target": "right" },
+    { "at": 4.9, "action": "complete" }
+  ]
 }
 ```
 
@@ -182,11 +209,12 @@ When `layout` is omitted, AutoCut uses the slide content to choose a renderer:
 5. `layers` selects `architecture`.
 6. `code` selects `code`.
 7. `steps` selects `flow`.
-8. `metrics` selects `metrics`.
-9. `cards` selects `cards`.
-10. A closing slide with `cta` selects `ending`.
-11. A short single idea selects `statement`.
-12. Other content uses `split` or `visual-left` when the image position is left.
+8. `infographic` selects `infographic`.
+9. `metrics` selects `metrics`.
+10. `cards` selects `cards`.
+11. A closing slide with `cta` selects `ending`.
+12. A short single idea selects `statement`.
+13. Other content uses `split` or `visual-left` when the image position is left.
 
 An unknown explicit layout fails fast instead of silently rendering the wrong structure.
 
@@ -235,6 +263,41 @@ none
 ```
 
 The same `flow` layout can use `wipe`, `rise`, or `zoom` without changing the process DOM.
+
+## Beat Timeline: content-led motion
+
+Effects describe how a scene enters. A beat timeline describes how the audience's attention moves inside that scene. Beat timestamps are seconds from the start of the slide, so a flow can reveal one step at a time while narration explains the causal order:
+
+```json
+{
+  "layout": "flow",
+  "title": "Repository to MP4",
+  "steps": [
+    { "title": "Intake", "detail": "Repository / URL / Brief" },
+    { "title": "Story", "detail": "Storyboard + narration" },
+    { "title": "Render", "detail": "Playwright + ffmpeg" }
+  ],
+  "beats": [
+    { "at": 0, "action": "show-title" },
+    { "at": 0.9, "action": "reveal-step", "target": 0 },
+    { "at": 2.1, "action": "focus-step", "target": 1 },
+    { "at": 3.4, "action": "reveal-step", "target": 2 },
+    { "at": 4.6, "action": "complete-flow" }
+  ]
+}
+```
+
+Supported actions:
+
+```text
+show-title                  reveal the semantic title
+reveal / reveal-step        make a target visible
+focus / focus-step          reveal and visually emphasize a target
+emphasize                   focus a semantic target such as statement emphasis
+complete / complete-flow    reveal the remaining content and clear focus
+```
+
+Targets are zero-based for `steps`, `metrics`, `timeline`, `cards`, `layers`, bullets, and code lines. `compare` uses `left` and `right`. The renderer adds semantic `data-beat-*` hooks, so beat animation remains separate from layout markup and from page transitions.
 
 ## CLI
 

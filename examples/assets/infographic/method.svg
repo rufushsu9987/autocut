@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 220" role="img" aria-label="Portable Core 方法人物">
+  <rect width="520" height="220" fill="none"/>
+  <g fill="none" stroke="#211F1B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+
+        <circle cx="236" cy="55" r="27" fill="#FFFDF9"/>
+        <circle cx="227" cy="54" r="3.5" fill="#211F1B" stroke="none"/>
+        <circle cx="246" cy="54" r="3.5" fill="#211F1B" stroke="none"/>
+        <path d="M226 70 Q237 78 248 70"/>
+        <path d="M236 83 L236 151"/>
+        <path d="M236 102 L182 122"/>
+        <path d="M236 102 L289 119"/>
+        <path d="M236 151 L199 194"/>
+        <path d="M236 151 L274 194"/>
+        <rect x="292" y="88" width="55" height="82" rx="10" fill="#F1D9CD" transform="rotate(9 319 129)"/>
+        <circle cx="319" cy="102" r="3" fill="#D97757" stroke="none"/>
+        <path d="M164 118 C131 99 111 100 91 112" stroke="#D97757" stroke-width="6"/>
+        <path d="M356 121 C384 107 405 111 425 127" stroke="#5E8065" stroke-width="6"/>
+        <path d="M78 112 l17 -2 l-9 15" fill="#D97757"/>
+        <path d="M437 127 l-16 2 l8 -14" fill="#5E8065"/>
+        <text x="145" y="214" font-size="18" font-weight="800" class="accent" stroke="none">STORY + LAYOUT + VERIFY</text>
+
+  </g>
+  <style>
+    text { font-family: Inter, Arial, sans-serif; fill: #211F1B; }
+    .muted { fill: #6F6962; }
+    .accent { fill: #D97757; }
+    .sage { fill: #5E8065; }
+  </style>
+</svg>
